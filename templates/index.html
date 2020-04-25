@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}App{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <h1>Welcome, {{ login }}</h1>
+
+    <form method="post" action="/add" id="record">
+        <div class="form-group">
+            <input type="text" name="name" placeholder="name" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <input type="email" name="email" placeholder="email" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <input type="text" name="phone" placeholder="phone" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <input type="text" name="address" placeholder="address" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add">
+        </div>
+    </form>
+
+    <h3>Total records: {{ total_records }}</h3>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Adress</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+        <tr attr="contact">
+            <td>{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            <td>{{item[3]}}</td>
+            <td>{{item[4]}}</td>
+            <td>
+                <form action="/remove" method="post"><input type="hidden" name="id" value="{{item[0]}}">
+                    <button id="remove-button">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+{% endblock %}

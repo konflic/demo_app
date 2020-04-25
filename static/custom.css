@@ -1,0 +1,7 @@
+.login_form {
+    position: absolute;
+    top: 35%;
+    left: 10%;
+    width: 40%;
+    max-width: 400px;
+}
