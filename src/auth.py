@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User
 from flask_login import login_user, login_required, logout_user, current_user
-from controller import db
+from .models import User
+from .controller import db, create_table
+from uuid import uuid1
 
 auth = Blueprint('auth', __name__)
 
@@ -47,13 +48,21 @@ def register_post():
         return "Password not match!"
 
     user = User.query.filter_by(login=login).first()
+
     if user:
         flash("Registration error!")
         return redirect(url_for('auth.register'))
 
-    new_user = User(login=login, password=generate_password_hash(password, method='sha256'))
+    contacts_table = login + "_" + str(uuid1()).replace("-", "_")
+
+    new_user = User(
+        login=login,
+        password=generate_password_hash(password, method='sha256'),
+        contacts=contacts_table
+    )
 
     db.session.add(new_user)
+    create_table(contacts_table)
     db.session.commit()
 
     flash("New user registered!")
