@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User
 from flask_login import login_user, login_required, logout_user, current_user
@@ -47,13 +47,16 @@ def register_post():
         return "Password not match!"
 
     user = User.query.filter_by(login=login).first()
-    if user: return redirect(url_for('auth.register'))
+    if user:
+        flash("Registration error!")
+        return redirect(url_for('auth.register'))
 
     new_user = User(login=login, password=generate_password_hash(password, method='sha256'))
 
     db.session.add(new_user)
     db.session.commit()
 
+    flash("New user registered!")
     return redirect(url_for('auth.register'))
 
 
