@@ -8,7 +8,7 @@ from src.models import User
 login_manager = LoginManager()
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
+app.config['SECRET_KEY'] = 'secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_storage/users.sqlite'
 db.init_app(app)
 
@@ -31,4 +31,4 @@ def load_user(user_id):
 
 if __name__ == "__main__":
     db.create_all(app=app)
-    app.run(debug=True, host="0.0.0.0", port="80")
+    app.run(host="0.0.0.0", port=os.getenv("PORT", 5000), debug=True)
