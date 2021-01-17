@@ -4,6 +4,7 @@ from src.controller import db
 from src.auth import auth as auth_blueprint
 from src.main import main as main_blueprint
 from src.models import User
+import os
 
 login_manager = LoginManager()
 app = Flask(__name__)
